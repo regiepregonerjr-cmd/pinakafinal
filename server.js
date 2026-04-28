@@ -150,13 +150,13 @@ app.post("/sale", (req, res) => {
 
 app.get("/sales", (req, res) => res.json({ sales }));
 
-// FIXED ROUTE FOR RENDER
-app.get("(.*)", (req, res) => {
+// FIXED ROUTE FOR EXPRESS 5 / RENDER
+app.get("/:path*", (req, res) => {
   const indexPath = path.join(__dirname, "dist", "index.html");
   if (existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    res.send("Online Ordering System & POS monitoring server is running.");
+    res.status(404).send("Online Ordering System & POS monitoring server is running, but frontend files were not found.");
   }
 });
 
