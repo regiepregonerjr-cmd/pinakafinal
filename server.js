@@ -150,13 +150,14 @@ app.post("/sale", (req, res) => {
 
 app.get("/sales", (req, res) => res.json({ sales }));
 
-// COMPATIBLE WILDCARD FOR EXPRESS 5
-app.get("*", (req, res) => {
+// THE GUARANTEED FIX FOR EXPRESS 5
+// Use a regular expression instead of "*"
+app.get(/^(?!\/api).+/, (req, res) => {
   const indexPath = path.join(__dirname, "dist", "index.html");
   if (existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    res.status(404).send("POS server is running, but dist/index.html is missing.");
+    res.status(404).send("Frontend files not found in dist folder.");
   }
 });
 
